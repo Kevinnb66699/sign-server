@@ -1,0 +1,7 @@
+# 签名服务器专用依赖（精简版）
+# 用于 Render.com 部署
+
+flask==3.0.0
+gevent==23.9.1
+playwright==1.40.0
+requests==2.31.0
