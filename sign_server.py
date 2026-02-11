@@ -248,9 +248,10 @@ def generate_sign(uri, data, a1, web_session, web_id=None):
     
     # 理论上不会到这里
     raise Exception("重试了这么多次还是无法签名成功")
-    
+
 @app.route('/web_a1', methods=['GET'])
 def web_a1():
+    logger.info(f"✅ 签名端a1转发成功: {global_a1}")
     return jsonify({'web_a1': global_a1})
 
 @app.route('/', methods=['GET'])
