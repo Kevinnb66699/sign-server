@@ -149,8 +149,8 @@ def init_browser():
         for cookie in cookies:
             if cookie["name"] == "a1":
                 global_a1 = cookie["value"]
-                logger.info(f"✅ 浏览器已生成 a1: {global_a1[:20]}...")
-                logger.info("💡 提示: 您可以将自己的 cookie 中的 a1 设置成一样，方可签名成功")
+                logger.info(f"✅ 浏览器已生成 a1: {global_a1}")
+                logger.info("💡 提示: 您要将自己的 cookie 中的 a1 设置成一样，方可签名成功")
                 break
         
         if not global_a1:
@@ -248,7 +248,10 @@ def generate_sign(uri, data, a1, web_session, web_id=None):
     
     # 理论上不会到这里
     raise Exception("重试了这么多次还是无法签名成功")
-
+    
+@app.route('/web_a1', methods=['GET'])
+def web_a1():
+    return jsonify({'web_a1': global_a1})
 
 @app.route('/', methods=['GET'])
 def index():
