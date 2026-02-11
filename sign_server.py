@@ -201,13 +201,34 @@ def generate_sign(uri, data, a1, web_session, web_id=None):
                 [uri, data]
             )
             
+            # 详细日志：记录原始返回值
+            logger.info(f"[尝试 {attempt + 1}/10] 原始返回值: {encrypt_params}")
+            logger.info(f"[尝试 {attempt + 1}/10] 返回值类型: {type(encrypt_params)}")
+            logger.info(f"[尝试 {attempt + 1}/10] 返回值键: {encrypt_params.keys() if isinstance(encrypt_params, dict) else 'N/A'}")
+            
+            # 检查返回值
+            if not isinstance(encrypt_params, dict):
+                raise Exception(f"签名函数返回值不是字典: {type(encrypt_params)}")
+            
+            # 提取字段（注意大小写！）
+            x_s = encrypt_params.get("X-s") or encrypt_params.get("x-s") or ""
+            x_t = encrypt_params.get("X-t") or encrypt_params.get("x-t") or ""
+            
+            if not x_s:
+                logger.warning(f"[尝试 {attempt + 1}/10] ⚠️ x-s 字段为空")
+            if not x_t:
+                logger.warning(f"[尝试 {attempt + 1}/10] ⚠️ x-t 字段为空")
+            
             # 返回结果
             result = {
-                "x-s": encrypt_params["X-s"],
-                "x-t": str(encrypt_params["X-t"])
+                "x-s": x_s,
+                "x-t": str(x_t)
             }
             
-            logger.info(f"[尝试 {attempt + 1}/10] ✅ 签名生成成功 - x-t: {result['x-t']}")
+            logger.info(f"[尝试 {attempt + 1}/10] ✅ 签名生成成功")
+            logger.info(f"   x-s: {x_s[:50] if x_s else '(空)'}...")
+            logger.info(f"   x-t: {x_t}")
+            
             return result
             
         except Exception as e:
