@@ -1,7 +1,7 @@
 # 签名服务器专用依赖（精简版）
-# 用于 Render.com 部署
+# 用于 Render.com 部署（支持 Python 3.13）
 
 flask==3.0.0
-gevent==24.2.1
+gevent==24.11.1
 playwright==1.40.0
 requests==2.31.0
