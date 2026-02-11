@@ -1,0 +1,19 @@
+# 备用方案：使用 Python 环境（不推荐，可能遇到依赖问题）
+# 如果 Docker 方案不可用，可以尝试这个配置
+
+services:
+  - type: web
+    name: xhs-sign-server
+    env: python
+    region: singapore  # 新加坡地区
+    plan: free  # 可选: free, starter, standard
+    # 只安装 chromium 二进制，跳过系统依赖安装
+    buildCommand: "pip install -r requirements.txt && playwright install chromium"
+    startCommand: "python sign_server.py"
+    envVars:
+      - key: PORT
+        sync: false
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: "0"  # 使用默认路径
+    healthCheckPath: /health
+    autoDeploy: true

@@ -1,11 +1,10 @@
 services:
   - type: web
     name: xhs-sign-server
-    env: python
+    env: docker
     region: singapore  # 新加坡地区
     plan: free  # 可选: free, starter, standard
-    buildCommand: "pip install -r requirements.txt && playwright install chromium && playwright install-deps"
-    startCommand: "python sign_server.py"
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: PORT
         sync: false
